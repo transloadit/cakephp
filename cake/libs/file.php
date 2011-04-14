@@ -295,7 +295,7 @@ class File extends Object {
 			$this->handle = null;
 		}
 		if ($this->exists()) {
-			return unlink($this->path);
+			return @unlink($this->path);
 		}
 		return false;
 	}
