@@ -291,7 +291,7 @@ class File extends Object {
 	function delete() {
 		clearstatcache();
 		if ($this->exists()) {
-			return unlink($this->path);
+			return @unlink($this->path);
 		}
 		return false;
 	}
