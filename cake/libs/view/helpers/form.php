@@ -486,7 +486,7 @@ class FormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1423/error
  */
 	function error($field, $text = null, $options = array()) {
-		$defaults = array('wrap' => true, 'class' => 'error-message', 'escape' => true);
+		$defaults = array('wrap' => true, 'class' => 'help-inline', 'escape' => true);
 		$options = array_merge($defaults, $options);
 		$this->setEntity($field);
 
@@ -523,7 +523,7 @@ class FormHelper extends AppHelper {
 				unset($options['escape']);
 			}
 			if ($options['wrap']) {
-				$tag = is_string($options['wrap']) ? $options['wrap'] : 'div';
+				$tag = is_string($options['wrap']) ? $options['wrap'] : 'span';
 				unset($options['wrap']);
 				return $this->Html->tag($tag, $error, $options);
 			} else {
@@ -801,8 +801,8 @@ class FormHelper extends AppHelper {
 		unset($options['div']);
 
 		if (!empty($div)) {
-			$divOptions['class'] = 'input';
-			$divOptions = $this->addClass($divOptions, $options['type']);
+			$divOptions['class'] = 'control-group';
+      // $divOptions = $this->addClass($divOptions, $options['type']);
 			if (is_string($div)) {
 				$divOptions['class'] = $div;
 			} elseif (is_array($div)) {
@@ -824,6 +824,28 @@ class FormHelper extends AppHelper {
 			$label = $options['label'];
 			unset($options['label']);
 		}
+
+    if (is_string($label)) {
+      $label = array(
+        'text' => $label,
+        'class' => 'control-label'
+      );
+    }
+    if ($options['type'] === 'checkbox') {
+      if (isset($label['class'])) {
+        $label['class'] = 'checkbox';
+      } else {
+        $label = array(
+          'text' => $label,
+          'class' => 'checkbox'
+        );
+      }
+    }
+
+    if (empty($options['between']) && !empty($div)) {
+      $options['between'] = '<div class="controls">';
+      $options['after'] = '</div>';
+    }
 
 		if ($options['type'] === 'radio') {
 			$label = false;
@@ -875,7 +897,13 @@ class FormHelper extends AppHelper {
 			break;
 			case 'checkbox':
 				$input = $this->checkbox($fieldName, $options);
-				$format = $format ? $format : array('before', 'input', 'between', 'label', 'after', 'error');
+        $format = $format ? $format : array('before', 'label', 'error');
+
+        $out['label'] = str_replace('</label>', '', $out['label']);
+        $out['label'] = '<div class="controls">' . $out['label'] . $input . '</label>' . '</div>';
+
+				// custom label wrapped around the input for twitter bootstrap
+				// array('before', 'input', 'between', 'label', 'after', 'error')
 			break;
 			case 'radio':
 				$input = $this->radio($fieldName, $radioOptions, $options);
@@ -915,7 +943,7 @@ class FormHelper extends AppHelper {
 		}
 
 		$out['input'] = $input;
-		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
+		$format = $format ? $format : array('before', 'label', 'between', 'input', 'error', 'after');
 		$output = '';
 		foreach ($format as $element) {
 			$output .= $out[$element];
@@ -1028,7 +1056,7 @@ class FormHelper extends AppHelper {
 			if (isset($options['disabled']) && $options['disabled'] == true) {
 				$hiddenOptions['disabled'] = 'disabled';
 			}
-			$output = $this->hidden($fieldName, $hiddenOptions);
+      $output = $this->hidden($fieldName, $hiddenOptions);
 		}
 		unset($options['hiddenField']);
 
@@ -1330,13 +1358,13 @@ class FormHelper extends AppHelper {
 		$divOptions = array('tag' => 'div');
 
 		if ($div === true) {
-			$divOptions['class'] = 'submit';
+			$divOptions['class'] = 'form-actions';
 		} elseif ($div === false) {
 			unset($divOptions);
 		} elseif (is_string($div)) {
 			$divOptions['class'] = $div;
 		} elseif (is_array($div)) {
-			$divOptions = array_merge(array('class' => 'submit', 'tag' => 'div'), $div);
+			$divOptions = array_merge(array('class' => 'form-actions', 'tag' => 'div'), $div);
 		}
 
 		$before = $options['before'];
