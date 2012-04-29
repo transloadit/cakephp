@@ -62,7 +62,7 @@ class ClassRegistry {
  * @return ClassRegistry instance
  * @access public
  */
-	function &getInstance() {
+	static function &getInstance() {
 		static $instance = array();
 		if (!$instance) {
 			$instance[0] =& new ClassRegistry();
@@ -96,7 +96,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function &init($class, $type = null) {
+	static function &init($class, $type = null) {
 		$_this =& ClassRegistry::getInstance();
 		$id = $false = false;
 		$true = true;
@@ -121,7 +121,7 @@ class ClassRegistry {
 				$pluginPath = null;
 				$settings = array_merge($defaults, $settings);
 				$class = $settings['class'];
-				
+
 				list($plugin, $class) = pluginSplit($class);
 				if ($plugin) {
 					$pluginPath = $plugin . '.';
@@ -180,7 +180,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function addObject($key, &$object) {
+	static function addObject($key, &$object) {
 		$_this =& ClassRegistry::getInstance();
 		$key = Inflector::underscore($key);
 		if (!isset($_this->__objects[$key])) {
@@ -198,7 +198,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function removeObject($key) {
+	static function removeObject($key) {
 		$_this =& ClassRegistry::getInstance();
 		$key = Inflector::underscore($key);
 		if (isset($_this->__objects[$key])) {
@@ -214,7 +214,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function isKeySet($key) {
+	static function isKeySet($key) {
 		$_this =& ClassRegistry::getInstance();
 		$key = Inflector::underscore($key);
 		if (isset($_this->__objects[$key])) {
@@ -232,7 +232,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function keys() {
+	static function keys() {
 		$_this =& ClassRegistry::getInstance();
 		return array_keys($_this->__objects);
 	}
@@ -245,7 +245,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function &getObject($key) {
+	static function &getObject($key) {
 		$_this =& ClassRegistry::getInstance();
 		$key = Inflector::underscore($key);
 		$return = false;
@@ -271,7 +271,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function config($type, $param = array()) {
+	static function config($type, $param = array()) {
 		$_this =& ClassRegistry::getInstance();
 
 		if (empty($param) && is_array($type)) {
@@ -314,7 +314,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function map($key, $name) {
+	static function map($key, $name) {
 		$_this =& ClassRegistry::getInstance();
 		$key = Inflector::underscore($key);
 		$name = Inflector::underscore($name);
@@ -330,7 +330,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function mapKeys() {
+	static function mapKeys() {
 		$_this =& ClassRegistry::getInstance();
 		return array_keys($_this->__map);
 	}
@@ -356,7 +356,7 @@ class ClassRegistry {
  * @access public
  * @static
  */
-	function flush() {
+	static function flush() {
 		$_this =& ClassRegistry::getInstance();
 		$_this->__objects = array();
 		$_this->__map = array();

@@ -603,7 +603,6 @@ class SecurityComponent extends Object {
 
 		if ($this->Session->check('_Token')) {
 			$tokenData = unserialize($this->Session->read('_Token'));
-
 			if ($tokenData['expires'] < time() || $tokenData['key'] !== $token) {
 				return false;
 			}
@@ -657,6 +656,7 @@ class SecurityComponent extends Object {
 				}
 			}
 		}
+
 		sort($fieldList, SORT_STRING);
 		ksort($lockedFields, SORT_STRING);
 

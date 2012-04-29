@@ -20,6 +20,7 @@
 if (!class_exists('ConnectionManager') || Configure::read('debug') < 2) {
 	return false;
 }
+
 $noLogs = !isset($logs);
 if ($noLogs):
 	$sources = ConnectionManager::sourceList();

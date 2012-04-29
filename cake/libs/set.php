@@ -40,7 +40,7 @@ class Set {
  * @access public
  * @static
  */
-	function merge($arr1, $arr2 = null) {
+	static function merge($arr1, $arr2 = null) {
 		$args = func_get_args();
 
 		$r = (array)current($args);
@@ -869,7 +869,7 @@ class Set {
  * @access public
  * @static
  */
-	function normalize($list, $assoc = true, $sep = ',', $trim = true) {
+	static function normalize($list, $assoc = true, $sep = ',', $trim = true) {
 		if (is_string($list)) {
 			$list = explode($sep, $list);
 			if ($trim) {

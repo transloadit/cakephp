@@ -33,7 +33,7 @@ class Overloadable extends Object {
  *
  * @access public
  */
-	function overload() { }
+	static function overload() { }
 
 /**
  * Magic method handler.
@@ -65,7 +65,7 @@ class Overloadable2 extends Object {
  *
  * @access public
  */
-	function overload() { }
+	static function overload() { }
 
 /**
  * Magic method handler.

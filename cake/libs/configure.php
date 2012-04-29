@@ -42,7 +42,7 @@ class Configure extends Object {
  * @return Configure instance
  * @access public
  */
-	function &getInstance($boot = true) {
+	static function &getInstance($boot = true) {
 		static $instance = array();
 		if (!$instance) {
 			if (!class_exists('Set')) {
@@ -151,7 +151,7 @@ class Configure extends Object {
  * @return string value of Configure::$var
  * @access public
  */
-	function read($var = 'debug') {
+	static function read($var = 'debug') {
 		$_this =& Configure::getInstance();
 
 		if ($var === 'debug') {
@@ -855,7 +855,7 @@ class App extends Object {
  * @return boolean true if Class is already in memory or if file is found and loaded, false if not
  * @access public
  */
-	function import($type = null, $name = null, $parent = true, $search = array(), $file = null, $return = false) {
+	static function import($type = null, $name = null, $parent = true, $search = array(), $file = null, $return = false) {
 		$plugin = $directory = null;
 
 		if (is_array($type)) {
@@ -975,7 +975,7 @@ class App extends Object {
  * @return object
  * @access public
  */
-	function &getInstance() {
+	static function &getInstance() {
 		static $instance = array();
 		if (!$instance) {
 			$instance[0] =& new App();
@@ -1284,18 +1284,18 @@ class App extends Object {
 		}
 		return $items;
 	}
-	
+
 /**
  * Determines if $__maps, $__objects and $__paths cache should be reset.
  *
- * @param boolean $reset 
+ * @param boolean $reset
  * @return boolean
  * @access private
- */	
+ */
 	function __resetCache($reset = null) {
 		static $cache = array();
 		if (!$cache && $reset === true) {
-			$cache = true;	
+			$cache = true;
 		}
 		return $cache;
 	}

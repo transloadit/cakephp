@@ -1221,6 +1221,7 @@ class Controller extends Object {
 			if ($recursive != $object->recursive) {
 				$parameters['recursive'] = $recursive;
 			}
+
 			$results = $object->find($type, array_merge($parameters, $extra));
 		}
 		$paging = array(

@@ -1252,6 +1252,7 @@ class Model extends Overloadable {
 		if (isset($this->data[$this->alias])) {
 			$fields = array_keys($this->data[$this->alias]);
 		}
+
 		if ($options['validate'] && !$this->validates($options)) {
 			$this->whitelist = $_whitelist;
 			return false;
@@ -2482,6 +2483,7 @@ class Model extends Overloadable {
 		if (is_array($errors)) {
 			return count($errors) === 0;
 		}
+
 		return $errors;
 	}
 

@@ -56,7 +56,7 @@ class Security extends Object {
  * @access public
  * @static
  */
-	function inactiveMins() {
+	static function inactiveMins() {
 		switch (Configure::read('Security.level')) {
 			case 'high':
 				return 10;
