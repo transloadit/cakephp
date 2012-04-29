@@ -305,7 +305,7 @@ class PaginatorHelper extends AppHelper {
 		$sortKey = $this->sortKey($options['model']);
 		$defaultModel = $this->defaultModel();
 		$isSorted = (
-			$sortKey === $key || 
+			$sortKey === $key ||
 			$sortKey === $defaultModel . '.' . $key ||
 			$key === $defaultModel . '.' . $sortKey
 		);
@@ -402,7 +402,7 @@ class PaginatorHelper extends AppHelper {
 		$check = 'has' . $which;
 		$_defaults = array(
 			'url' => array(), 'step' => 1, 'escape' => true,
-			'model' => null, 'tag' => 'span', 'class' => strtolower($which)
+			'model' => null, 'tag' => 'li', 'class' => strtolower($which)
 		);
 		$options = array_merge($_defaults, (array)$options);
 		$paging = $this->params($options['model']);
@@ -425,10 +425,11 @@ class PaginatorHelper extends AppHelper {
 		}
 		$url = array_merge(array('page' => $paging['page'] + ($which == 'Prev' ? $step * -1 : $step)), $url);
 
+    $options = array_merge($options, compact('escape', 'class'));
 		if ($this->{$check}($model)) {
-			return $this->Html->tag($tag, $this->link($title, $url, array_merge($options, compact('escape', 'class'))));
+			return $this->Html->tag($tag, $this->link($title, $url, $options), $options);
 		} else {
-			return $this->Html->tag($tag, $title, array_merge($options, compact('escape', 'class')));
+			return $this->Html->tag($tag, $this->link($title, '#', $options), $options);
 		}
 	}
 
