@@ -472,7 +472,7 @@ class Set {
 							'item' => $item,
 						);
 					}
-				} elseif ($key === $token || (ctype_digit($token) && $key == $token) || $token === '.') {
+				} elseif (($key === $token || (preg_match('/^\d+$/', $token) && $key == $token) || $token === '.')) {
 					$context['trace'][] = $key;
 					$matches[] = array(
 						'trace' => $context['trace'],
