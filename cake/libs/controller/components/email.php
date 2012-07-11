@@ -675,7 +675,10 @@ class EmailComponent extends Object{
 
 		foreach ($files as $filename => $file) {
 			$handle = fopen($file, 'rb');
-			$data = fread($handle, filesize($file));
+      $data = '';
+      while ($line = fread($handle, 10 * 1024)) {
+        $data .= $line;
+      }
 			$data = chunk_split(base64_encode($data)) ;
 			fclose($handle);
 
@@ -697,7 +700,7 @@ class EmailComponent extends Object{
  * @access private
  */
 	function _findFiles($attachment) {
-		if (file_exists($attachment)) {
+		if (file_exists($attachment) || @fopen($attachment, "r") == true) {
 			return $attachment;
 		}
 		foreach ($this->filePaths as $path) {
