@@ -386,6 +386,8 @@ class Dispatcher extends Object {
 		if (!$ctrlClass) {
 			return $controller;
 		}
+		// Avoid an error for /%5C
+		Assert::true(strpos($ctrlClass, '\\') === false, '404');
 		$ctrlClass .= 'Controller';
 		if (class_exists($ctrlClass)) {
 			$controller =& new $ctrlClass();
