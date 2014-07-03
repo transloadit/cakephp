@@ -7,12 +7,12 @@
  * should respond to the different needs of a handheld computer and a desktop machine.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.controller.components
@@ -37,7 +37,7 @@ class RequestHandlerComponent extends Object {
  * @access public
  * @see RequestHandler::setAjax()
  */
-	var $ajaxLayout = 'ajax';
+  var $ajaxLayout = 'ajax';
 
 /**
  * Determines whether or not callbacks will be fired on this component
@@ -45,7 +45,7 @@ class RequestHandlerComponent extends Object {
  * @var boolean
  * @access public
  */
-	var $enabled = true;
+  var $enabled = true;
 
 /**
  * Holds the content-type of the response that is set when using
@@ -54,7 +54,7 @@ class RequestHandlerComponent extends Object {
  * @var string
  * @access private
  */
-	var $__responseTypeSet = null;
+  var $__responseTypeSet = null;
 
 /**
  * Holds the copy of Controller::$params
@@ -62,7 +62,7 @@ class RequestHandlerComponent extends Object {
  * @var array
  * @access public
  */
-	var $params = array();
+  var $params = array();
 
 /**
  * Friendly content-type mappings used to set response types and determine
@@ -270,25 +270,34 @@ class RequestHandlerComponent extends Object {
  * @param mixed HTTP Status for redirect
  * @access public
  */
-	function beforeRedirect(&$controller, $url, $status = null) {
-		if (!$this->isAjax()) {
-			return;
-		}
-		foreach ($_POST as $key => $val) {
-			unset($_POST[$key]);
-		}
-		if (is_array($url)) {
-			$url = Router::url($url + array('base' => false));
-		}
-		if (!empty($status)) {
-			$statusCode = $controller->httpCodes($status);
-			$code = key($statusCode);
-			$msg = $statusCode[$code];
-			$controller->header("HTTP/1.1 {$code} {$msg}");
-		}
-		echo $this->requestAction($url, array('return', 'bare' => false));
-		$this->_stop();
-	}
+  function beforeRedirect(&$controller, $url, $status = null) {
+    if (!$this->isAjax()) {
+      return;
+    }
+    foreach ($_POST as $key => $val) {
+      unset($_POST[$key]);
+    }
+    if (is_array($url)) {
+      $url = Router::url($url + array('base' => false));
+    }
+    if (!empty($status)) {
+      $statusCode = $controller->httpCodes($status);
+      $code = key($statusCode);
+      $msg = $statusCode[$code];
+      $controller->header("HTTP/1.1 {$code} {$msg}");
+    }
+
+    try {
+      echo $this->requestAction($url, array('return', 'bare' => false));
+    } catch(Exception $e) {
+      if (method_exists($e, 'render')) {
+        echo $e->render();
+      } else {
+        die('Request blacklisted.');
+      }
+    }
+    $this->_stop();
+  }
 
 /**
  * Returns true if the current HTTP request is Ajax, false otherwise
