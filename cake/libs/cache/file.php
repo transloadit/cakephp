@@ -41,7 +41,7 @@ class FileEngine extends CacheEngine {
 
 /**
  * Settings
- * 
+ *
  * - path = absolute path to cache directory, default => CACHE
  * - prefix = string prefix for filename, default => cake_
  * - lock = enable file locking on write, default => false
@@ -182,6 +182,7 @@ class FileEngine extends CacheEngine {
 			return false;
 		}
 		$data = $this->_File->read(true);
+		$data = trim($data);
 
 		if ($data !== '' && !empty($this->settings['serialize'])) {
 			if ($this->settings['isWindows']) {
